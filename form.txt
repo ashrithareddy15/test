@@ -1,7 +1,5 @@
 <?php
-print_r($_POST);
-$username_error = $email_error = $contact_error = $city_error = "";
-$username = $email = $contact = $city = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["username"])) {
