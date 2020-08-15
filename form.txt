@@ -1,0 +1,66 @@
+<?php
+print_r($_POST);
+$username_error = $email_error = $contact_error = $city_error = "";
+$username = $email = $contact = $city = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["username"])) {
+      $username_error = "Name is required";
+    } else {
+      $username = test_input($_POST["username"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
+      // mysqli_query($mysqli,"delete from customer_details_table where username=$username");
+        $username_error = "Only letters and white space allowed"; 
+        //header('Location:register.php');
+      }
+    }
+    
+    if (empty($_POST["email"])) {
+      $email_error = "Email is required";
+    } else {
+      $email = test_input($_POST["email"]);
+      // check if e-mail address is well-formed
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        //mysqli_query($mysqli,"delete from customer_details_table where email=$email");
+        $email_error = "Invalid email format"; 
+      }
+    }
+
+    if (empty($_POST["contact"])) {
+        $contact_error = "Contact  is required";
+      } else {
+        $contact = test_input($_POST["contact"]);
+        // check if e-mail address is well-formed
+        if (!preg_match("^((\+){0,1}91(\s){0,1}(\-){0,1}(\s){0,1}){0,1}98(\s){0,1}(\-){0,1}(\s){0,1}[1-9]{1}[0-9]{7}$^",$contact)) {
+          //mysqli_query($mysqli,"delete from customer_details_table where contact=$contact");
+          $contact_error = "Invalid contact"; 
+        }
+      }
+    
+    
+        if (empty($_POST["city"])) {
+          $city_error = "City is required";
+        } else {
+          $city = test_input($_POST["city"]);
+          // check if name only contains letters and whitespace
+          if (!preg_match("/^[a-zA-Z ]*$/",$city)) {
+            //mysqli_query($mysqli,"delete from customer_details_table where city=$city");
+            $city_error = "Invalid city"; 
+          }
+        }
+    }
+   /* if($username_error=='' and $contact_error=='' and $email_error=='' and $city_error=='')
+    {
+      ob_start();
+      header('Location:success.html');  
+      ob_flush();
+    }*/
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+      }
+?>
+    
